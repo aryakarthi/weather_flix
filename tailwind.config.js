@@ -10,6 +10,7 @@ export default {
         md: "3rem",
         lg: "4rem",
         xl: "5rem",
+        "2xl": "8rem",
       },
     },
     extend: {},

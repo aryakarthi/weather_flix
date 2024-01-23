@@ -1,11 +1,31 @@
 import React from "react";
 
-import Layout from "./components/Layout";
+import Header from "./components/Header";
+import Forecast from "./components/Forecast";
+import useForecast from "./hooks/useForecast";
 
 const App = () => {
+  const {
+    term,
+    options,
+    city,
+    forecast,
+    onInputChange,
+    onOptionSelect,
+    onSubmit,
+  } = useForecast();
+
   return (
-    <div className="min-h-screen md:max-w-screen-xl mx-auto">
-      <Layout/>
+    <div className="container">
+      <Header
+        term={term}
+        options={options}
+        city={city}
+        onInputChange={onInputChange}
+        onOptionSelect={onOptionSelect}
+        onSubmit={onSubmit}
+      />
+      <Forecast forecast={forecast} />
     </div>
   );
 };
