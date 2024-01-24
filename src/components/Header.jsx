@@ -13,7 +13,7 @@ const Header = ({
   console.log(city);
 
   return (
-    <header className="flex flex-col md:flex-row items-center justify-between gap-4 bg-white bg-opacity-20 backdrop-blur-md rounded-md drop-shadow-md p-4 my-4">
+    <header className="flex flex-col md:flex-row items-center justify-between gap-4 bg-white bg-opacity-20 backdrop-blur-md rounded-md drop-shadow-md p-4 mb-4">
       <div className="flex gap-2">
         <img src="/weather_flix_logo.png" alt="Weather Flix" />
         <h2 className="text-2xl font-black">Weather Flix</h2>

@@ -16,7 +16,7 @@ const App = () => {
   } = useForecast();
 
   return (
-    <div className="container">
+    <div className="min-h-screen py-4 container">
       <Header
         term={term}
         options={options}
