@@ -10,6 +10,8 @@ const App = () => {
     options,
     city,
     forecast,
+    isFarenheit,
+    handleUnitChange,
     onInputChange,
     onOptionSelect,
     onSubmit,
@@ -21,11 +23,13 @@ const App = () => {
         term={term}
         options={options}
         city={city}
+        isFarenheit={isFarenheit}
+        handleUnitChange={handleUnitChange}
         onInputChange={onInputChange}
         onOptionSelect={onOptionSelect}
         onSubmit={onSubmit}
       />
-      <Forecast forecast={forecast} />
+      <Forecast forecast={forecast} isFarenheit={isFarenheit} />
     </div>
   );
 };

@@ -6,7 +6,9 @@ body {
   margin: 0;
   padding: 0;
   min-height: 100vh;
-  background-image: linear-gradient(to top, #fbc2eb 0%, #a6c1ee 100%);
+
+  background-image: linear-gradient(to top, #da7ffb 0%, #a6c1ee 100%);
+
   background-position: fixed;
   background-repeat: no-repeat;
   background-size: cover;
@@ -24,15 +26,15 @@ body {
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #f1f1f1; 
+  background: #f1f1f1;
 }
- 
+
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #888; 
+  background: #888;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #555; 
+  background: #555;
 }

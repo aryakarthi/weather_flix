@@ -6,6 +6,11 @@ const useForecast = () => {
   const [options, setOptions] = useState([]);
   const [city, setCity] = useState(null);
   const [forecast, setForecast] = useState(null);
+  const [isFarenheit, setIsFarenheit] = useState(false);
+
+  const handleUnitChange = () => {
+    setIsFarenheit(!isFarenheit);
+  };
 
   const getSearchOptions = async (searchTerm) => {
     try {
@@ -82,6 +87,8 @@ const useForecast = () => {
     options,
     city,
     forecast,
+    isFarenheit,
+    handleUnitChange,
     onInputChange,
     onOptionSelect,
     onSubmit,
