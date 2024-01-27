@@ -63,14 +63,12 @@ const useForecast = () => {
         }
       );
       setForecast(response.data);
-      // console.log("tried to get weather");
     } catch (error) {
       console.log({ error });
     }
   };
 
   const onSubmit = () => {
-    // console.log("clicked");
     if (!city) return;
     getForecast(city);
   };

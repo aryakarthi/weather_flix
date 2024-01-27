@@ -1,65 +1,120 @@
 import React from "react";
-import { epochToDateTime, epochToTime } from "../utils/utilities";
-import { MdLocationOn, MdAccessTime } from "react-icons/md";
-import ImgComponent from "./ImgComponent";
 import SubMenu from "./SubMenu";
+import WindHourly from "./WindHourly";
+import TempHourly from "./TempHourly";
+import HighlightsComponent from "./HighlightsComponent";
+import NowComponent from "./NowComponent";
 
-// import data from "../data/forecast.json";
+import data from "../data/forecast.json";
 // forecast: data,
 
-const Forecast = ({ forecast: data, isFarenheit }) => {
+const Forecast = ({ isFarenheit }) => {
   console.log(data);
+
+  const {
+    temp_c,
+    temp_f,
+    humidity,
+    pressure_mb,
+    vis_km,
+    feelslike_c,
+    feelslike_f,
+    gust_kph,
+    wind_dir,
+    wind_kph,
+    uv,
+    precip_mm,
+  } = data?.current;
+
+  const { icon, text } = data?.current.condition;
+
+  const { name, country, localtime_epoch } = data?.location;
+
+  const weatherNow = {
+    icon,
+    text,
+    name,
+    country,
+    localtime_epoch,
+    temp_c,
+    temp_f,
+  };
+
+  const threeDaysForecast = data?.forecast.forecastday;
+
+  const { sunrise, sunset, moonrise, moonset } = threeDaysForecast[0].astro;
+
+  const { maxtemp_f, maxtemp_c, mintemp_f, mintemp_c, totalsnow_cm } =
+    threeDaysForecast[0].day;
+
+  const highlights = [
+    {
+      id: 1,
+      heading: "Current Status",
+      readings: [
+        { title: "Humidity", value: humidity, unit: "%" },
+        { title: "Pressure", value: pressure_mb, unit: "hPa" },
+        { title: "Visibility", value: vis_km, unit: "km" },
+        {
+          title: "Feels Like",
+          value: { celsius: feelslike_c, farenheit: feelslike_f },
+        },
+      ],
+    },
+    {
+      id: 2,
+      heading: "Air Conditions",
+      readings: [
+        { title: "Gust", value: gust_kph, unit: "km/h" },
+        { title: "Direction", value: wind_dir },
+        { title: "Speed", value: wind_kph, unit: "km/h" },
+        { title: "UV", value: uv },
+      ],
+    },
+    {
+      id: 3,
+      heading: "Astro",
+      readings: [
+        { title: "Sun Rise", value: sunrise },
+        { title: "Sun Set", value: sunset },
+        { title: "Moon Rise", value: moonrise },
+        { title: "Moon Set", value: moonset },
+      ],
+    },
+    {
+      id: 4,
+      heading: "Temperature & Rain",
+      readings: [
+        {
+          title: "Max Temp",
+          value: { celsius: maxtemp_c, farenheit: maxtemp_f },
+        },
+        {
+          title: "Min Temp",
+          value: { celsius: mintemp_c, farenheit: mintemp_f },
+        },
+        { title: "Perciptation", value: precip_mm, unit: "mm" },
+        { title: "Snow", value: totalsnow_cm, unit: "cm" },
+      ],
+    },
+  ];
+
   return (
     <>
       {data && (
         <section className="flex flex-col md:flex-row md:items-start gap-4">
           <aside className="flex flex-col gap-4 lg:w-1/3 md:w-1/2 w-full ">
             <div className="rounded-md p-4 bg-white bg-opacity-40 backdrop-blur-md drop-shadow-md -z-10">
-              <h3>Now</h3>
-              <div>
-                <div className="flex items-center justify-between">
-                  <span className="font-bold text-3xl">
-                    {isFarenheit ? (
-                      <>
-                        {data?.current.temp_f} <sup>0</sup>F
-                      </>
-                    ) : (
-                      <>
-                        {data?.current.temp_c} <sup>0</sup>C
-                      </>
-                    )}
-                  </span>
-                  <img src={data?.current.condition.icon} alt="condition" />
-                </div>
-                <p className="mb-2">{data?.current.condition.text}</p>
-              </div>
-              <div>
-                <p className="flex items-center justify-start gap-2">
-                  <span>
-                    <MdLocationOn size={18} />
-                  </span>
-                  <span className="text-md">
-                    {data?.location.name}, {data?.location.country}
-                  </span>
-                </p>
-                <p className="flex items-center justify-start gap-2">
-                  <span>
-                    <MdAccessTime size={18} />
-                  </span>
-                  <span className="text-md">
-                    {data && epochToDateTime(data?.location.localtime_epoch)}
-                  </span>
-                </p>
-              </div>
+              <NowComponent isFarenheit={isFarenheit} now={weatherNow} />
             </div>
             <div className="rounded-md p-4 bg-white bg-opacity-40 backdrop-blur-md drop-shadow-md z-50">
               <h3 className="mb-2">3days Forecast</h3>
               <div>
-                {data?.forecast.forecastday?.map((info) => (
+                {threeDaysForecast?.map((info) => (
                   <div key={info.date_epoch} className="flex flex-col gap-1">
                     <SubMenu
                       info={info}
-                      daysForecast={data?.forecast.forecastday}
+                      daysForecast={threeDaysForecast}
                       isFarenheit={isFarenheit}
                     />
                   </div>
@@ -71,182 +126,33 @@ const Forecast = ({ forecast: data, isFarenheit }) => {
             <div className="rounded-md p-4 bg-white bg-opacity-30 backdrop-blur-md drop-shadow-md -z-10">
               <h3 className="mb-2">Today's Highlights</h3>
               <div className="grid xl:grid-cols-2 xl:grid-rows-2 grid-cols-1 grid-rows-4 gap-4">
-                <div className=" bg-white bg-opacity-40 rounded-md p-4">
-                  <h3 className="mb-2">Current Status</h3>
-                  <div className="grid grid-cols-2 grid-rows-2 lg:grid-cols-4 lg:grid-rows-1 gap-2 text-sm">
-                    <div className="flex flex-col items-center gap-2 bg-white bg-opacity-50 p-2 rounded-md">
-                      <span>Humidity</span>
-                      <span>{data?.current.humidity}</span>
-                    </div>
-                    <div className="flex flex-col items-center gap-2 bg-white bg-opacity-50 p-2 rounded-md">
-                      <span>Pressure</span>
-                      <span>{data?.current.pressure_mb}</span>
-                    </div>
-                    <div className="flex flex-col items-center gap-2 bg-white bg-opacity-50 p-2 rounded-md">
-                      <span>Visibility</span>
-                      <span>{data?.current.vis_km}</span>
-                    </div>
-                    <div className="flex flex-col items-center gap-2 bg-white bg-opacity-50 p-2 rounded-md">
-                      <span>Feels like</span>
-                      <span>
-                        {isFarenheit ? (
-                          <>
-                            {data?.current.feelslike_f} <sup>0</sup>F
-                          </>
-                        ) : (
-                          <>
-                            {data?.current.feelslike_c} <sup>0</sup>C
-                          </>
-                        )}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div className=" bg-white bg-opacity-40 rounded-md p-4">
-                  <h3 className="mb-2">Air Conditions</h3>
-                  <div className="grid grid-cols-2 grid-rows-2 lg:grid-cols-4 lg:grid-rows-1 gap-2 text-sm">
-                    <div className="flex flex-col items-center gap-2 bg-white bg-opacity-50 p-2 rounded-md">
-                      <span>Gust</span>
-                      <span>{data?.current.gust_kph}</span>
-                    </div>
-                    <div className="flex flex-col items-center gap-2 bg-white bg-opacity-50 p-2 rounded-md">
-                      <span>Direction</span>
-                      <span>{data?.current.wind_dir}</span>
-                    </div>
-                    <div className="flex flex-col items-center gap-2 bg-white bg-opacity-50 p-2 rounded-md">
-                      <span>Speed</span>
-                      <span>{data?.current.wind_kph}</span>
-                    </div>
-                    <div className="flex flex-col items-center gap-2 bg-white bg-opacity-50 p-2 rounded-md">
-                      <span>UV</span>
-                      <span>{data?.current.uv}</span>
-                    </div>
-                  </div>
-                </div>
-                <div className=" bg-white bg-opacity-40 rounded-md p-4">
-                  <h3 className="mb-2">Astro</h3>
-                  <div className="grid grid-cols-2 grid-rows-2 lg:grid-cols-4 lg:grid-rows-1 gap-2 text-sm">
-                    <div className="flex flex-col items-center gap-2 bg-white bg-opacity-50 p-2 rounded-md">
-                      <span>Sun Rise</span>
-                      <span>{data?.forecast.forecastday[0].astro.sunrise}</span>
-                    </div>
-                    <div className="flex flex-col items-center gap-2 bg-white bg-opacity-50 p-2 rounded-md">
-                      <span>Sun Set</span>
-                      <span>{data?.forecast.forecastday[0].astro.sunset}</span>
-                    </div>
-                    <div className="flex flex-col items-center gap-2 bg-white bg-opacity-50 p-2 rounded-md">
-                      <span>Moon Rise</span>
-                      <span>
-                        {data?.forecast.forecastday[0].astro.moonrise}
-                      </span>
-                    </div>
-                    <div className="flex flex-col items-center gap-2 bg-white bg-opacity-50 p-2 rounded-md">
-                      <span>Moon Set</span>
-                      <span>{data?.forecast.forecastday[0].astro.moonset}</span>
-                    </div>
-                  </div>
-                </div>
-                <div className=" bg-white bg-opacity-40 rounded-md p-4">
-                  <h3 className="mb-2">Temperature & Rain</h3>
-                  <div className="grid grid-cols-2 grid-rows-2 lg:grid-cols-4 lg:grid-rows-1 gap-2 text-sm">
-                    <div className="flex flex-col items-center gap-2 bg-white bg-opacity-50 p-2 rounded-md">
-                      <span>Max Temp</span>
-                      <span>
-                        {isFarenheit ? (
-                          <>
-                            {data?.forecast.forecastday[0].day.maxtemp_f}{" "}
-                            <sup>0</sup>F
-                          </>
-                        ) : (
-                          <>
-                            {data?.forecast.forecastday[0].day.maxtemp_c}{" "}
-                            <sup>0</sup>C
-                          </>
-                        )}
-                      </span>
-                    </div>
-                    <div className="flex flex-col items-center gap-2 bg-white bg-opacity-50 p-2 rounded-md">
-                      <span>Min Temp</span>
-                      <span>
-                        {isFarenheit ? (
-                          <>
-                            {data?.forecast.forecastday[0].day.mintemp_f}{" "}
-                            <sup>0</sup>F
-                          </>
-                        ) : (
-                          <>
-                            {data?.forecast.forecastday[0].day.mintemp_c}{" "}
-                            <sup>0</sup>C
-                          </>
-                        )}
-                      </span>
-                    </div>
-                    <div className="flex flex-col items-center gap-2 bg-white bg-opacity-50 p-2 rounded-md">
-                      <span>Perciptation</span>
-                      <span>{data?.current.precip_mm}</span>
-                    </div>
-                    <div className="flex flex-col items-center gap-2 bg-white bg-opacity-50 p-2 rounded-md">
-                      <span>Snow</span>
-                      <span>
-                        {data?.forecast.forecastday[0].day.totalsnow_cm}
-                      </span>
-                    </div>
-                  </div>
-                </div>
+                {highlights?.map((hl) => (
+                  <HighlightsComponent
+                    key={hl.id}
+                    data={hl}
+                    isFarenheit={isFarenheit}
+                  />
+                ))}
               </div>
             </div>
+            {/* Today's Forecast */}
             <div className="rounded-md p-4 bg-white bg-opacity-30 backdrop-blur-md drop-shadow-md z-10">
               <h3 className="mb-2">Today's Forecast</h3>
               <div className=" bg-white bg-opacity-40 rounded-md p-4">
                 <h4 className="mb-2">Temperature at</h4>
                 <div className="flex flex-1 items-center gap-2 overflow-x-scroll scrollbar-none mb-4">
-                  {data?.forecast.forecastday[0].hour.map((h) => (
-                    <div
-                      key={h.time_epoch}
-                      className="min-w-[80px] flex flex-col items-center gap-2 bg-white bg-opacity-50 p-2 rounded-md hover:bg-opacity-80 hover:cursor-pointer"
-                    >
-                      <span className="text-xs">
-                        {data && epochToTime(h.time_epoch)}
-                      </span>
-                      <img
-                        src={h.condition.icon}
-                        alt={h.condition.text}
-                        className={`w-12 rotate-${h.wind_degree}`}
-                      />
-                      <span className="text-xs">
-                        {isFarenheit ? (
-                          <>
-                            {h.temp_f} <sup>0</sup>F
-                          </>
-                        ) : (
-                          <>
-                            {h.temp_c} <sup>0</sup>C
-                          </>
-                        )}
-                      </span>
-                    </div>
+                  {threeDaysForecast[0].hour.map((item) => (
+                    <TempHourly
+                      key={item.time_epoch}
+                      hourly={item}
+                      isFarenheit={isFarenheit}
+                    />
                   ))}
                 </div>
-
                 <h4 className="mb-2">Wind Speed & Direction at</h4>
                 <div className="flex flex-1 items-center gap-2 overflow-x-scroll scrollbar-none pb-1">
-                  {data?.forecast.forecastday[0].hour.map((h) => (
-                    <div
-                      key={h.time_epoch}
-                      className="min-w-[80px] flex flex-col items-center gap-2 bg-white rounded-md bg-opacity-50 p-2 hover:bg-opacity-80 hover:cursor-pointer"
-                    >
-                      <span className="text-xs">
-                        {epochToTime(h.time_epoch)}
-                      </span>
-
-                      <ImgComponent
-                        imgURL="/direction.png"
-                        imgTitle={h.condition.text}
-                        rotateDeg={h.wind_degree}
-                      />
-                      <span className="text-xs">{h.wind_dir}</span>
-                      <span className="text-xs">{h.wind_kph}kmph</span>
-                    </div>
+                  {threeDaysForecast[0].hour.map((item) => (
+                    <WindHourly key={item.time_epoch} hourly={item} />
                   ))}
                 </div>
               </div>
