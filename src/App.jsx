@@ -12,6 +12,7 @@ const App = () => {
     forecast,
     isFarenheit,
     handleUnitChange,
+    handleLocationClick,
     onInputChange,
     onOptionSelect,
     onSubmit,
@@ -25,6 +26,7 @@ const App = () => {
         city={city}
         isFarenheit={isFarenheit}
         handleUnitChange={handleUnitChange}
+        handleLocationClick={handleLocationClick}
         onInputChange={onInputChange}
         onOptionSelect={onOptionSelect}
         onSubmit={onSubmit}

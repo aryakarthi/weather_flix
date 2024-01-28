@@ -8,14 +8,14 @@ const TempHourly = ({ hourly, isFarenheit }) => {
       key={hourly.time_epoch}
       className="min-w-[80px] flex flex-col items-center gap-2 bg-white bg-opacity-40 p-2 rounded-md hover:bg-opacity-80 hover:cursor-pointer"
     >
-      <span className="text-xs">
+      <span className="text-xs font-medium text-emerald-600">
         {hourly && epochToTime(hourly.time_epoch)}
       </span>
       <ImgComponent
         imgURL={hourly.condition.icon}
         imgTitle={hourly.condition.text}
       />
-      <span className="text-xs">
+      <span className="text-xs font-medium">
         {isFarenheit ? (
           <>
             {hourly.temp_f} <sup>0</sup>F

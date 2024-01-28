@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { epochToDayMonth } from "../utils/utilities";
 import { IoIosArrowDown } from "react-icons/io";
 
-const SubMenu = ({ info, daysForecast, isFarenheit }) => {
+const SubMenu = ({ info, isFarenheit }) => {
   const [subMenuOpen, setSubMenuOpen] = useState(false);
 
   const { sunrise, sunset, moonrise, moonset } = info.astro;
@@ -41,11 +41,13 @@ const SubMenu = ({ info, daysForecast, isFarenheit }) => {
   return (
     <>
       <div
-        className="flex items-center justify-between text-sm px-2 bg-white bg-opacity-10 backdrop-blur-md drop-shadow-md rounded-md"
+        className="flex items-center justify-between text-sm px-2 bg-white bg-opacity-10 backdrop-blur-md drop-shadow-md rounded-md hover:cursor-pointer"
         onClick={() => setSubMenuOpen(!subMenuOpen)}
       >
-        <span>{epochToDayMonth(info.date_epoch)}</span>
-        <span>
+        <span className="flex-1 text-emerald-600 font-medium">
+          {epochToDayMonth(info.date_epoch)}
+        </span>
+        <span className="flex-1 text-center">
           {isFarenheit ? (
             <>
               {info.day.avgtemp_f} <sup>0</sup>F
@@ -56,10 +58,14 @@ const SubMenu = ({ info, daysForecast, isFarenheit }) => {
             </>
           )}
         </span>
-        <img src={info.day.condition.icon} alt="" className="w-8" />
-        <IoIosArrowDown
-          className={` ${subMenuOpen && "rotate-180"} duration-200 `}
-        />
+        <span className="flex-1">
+          <img src={info.day.condition.icon} alt="" className="w-8 ml-auto" />
+        </span>
+        <span className="flex-1">
+          <IoIosArrowDown
+            className={` ${subMenuOpen && "rotate-180"} duration-200 ml-auto`}
+          />
+        </span>
       </div>
       <ul
         className={`${
@@ -67,7 +73,10 @@ const SubMenu = ({ info, daysForecast, isFarenheit }) => {
         } flex flex-col gap-2 px-2 text-sm font-normal overflow-hidden`}
       >
         {dailyForecast.map((dailyFc) => (
-          <li key={dailyFc.id} className="flex justify-between">
+          <li
+            key={dailyFc.id}
+            className="flex justify-between hover:cursor-pointer hover:text-red-500"
+          >
             <span>{dailyFc.title}</span>
             <span>
               {typeof dailyFc.value !== "object" ? (

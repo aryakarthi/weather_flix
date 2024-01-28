@@ -4,15 +4,18 @@ const HighlightsComponent = ({ data, isFarenheit }) => {
   return (
     <>
       <div className=" bg-white bg-opacity-30 rounded-md p-4">
-        <h3 className="mb-2">{data.heading}</h3>
-        <div className="grid grid-cols-2 grid-rows-2 lg:grid-cols-4 lg:grid-rows-1 gap-2 text-sm">
+        <h3 className="mb-2 font-medium text-red-500">{data.heading}</h3>
+        <div className="grid grid-cols-2 grid-rows-2 lg:grid-cols-4 lg:grid-rows-1 gap-2">
           {data?.readings?.map((d, i) => (
             <div
               key={i}
               className="flex flex-col items-center gap-2 bg-white bg-opacity-40 p-2 rounded-md"
             >
-              <span>{d.title}</span>
+              <span className="text-xs font-medium text-emerald-500">{d.title}</span>
               <span>
+                <d.icon size={24} />
+              </span>
+              <span  className="text-sm">
                 {typeof d.value !== "object" ? (
                   d.value
                 ) : isFarenheit ? (

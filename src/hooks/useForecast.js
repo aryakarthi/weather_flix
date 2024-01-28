@@ -48,7 +48,6 @@ const useForecast = () => {
   const getForecast = async (city) => {
     try {
       const latlonValue = `${city.lat},${city.lon}`;
-      console.log(latlonValue);
       const response = await axios.get(
         `${import.meta.env.VITE_WEATHER_API_BASE_URL}/forecast.json`,
         {
@@ -83,6 +82,16 @@ const useForecast = () => {
     url: "chennai-tamil-nadu-india",
   };
 
+  const handleLocationClick = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        let lat = position.coords.latitude;
+        let lon = position.coords.longitude;
+        getForecast({ lat, lon });
+      });
+    }
+  };
+
   useEffect(() => {
     getForecast(myCity);
   }, []);
@@ -100,6 +109,7 @@ const useForecast = () => {
     city,
     forecast,
     isFarenheit,
+    handleLocationClick,
     handleUnitChange,
     onInputChange,
     onOptionSelect,
