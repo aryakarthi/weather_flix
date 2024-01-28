@@ -7,6 +7,7 @@ const useForecast = () => {
   const [city, setCity] = useState(null);
   const [forecast, setForecast] = useState(null);
   const [isFarenheit, setIsFarenheit] = useState(false);
+  const [location, setLocation] = useState(null);
 
   const handleUnitChange = () => {
     setIsFarenheit(!isFarenheit);
@@ -87,6 +88,7 @@ const useForecast = () => {
       navigator.geolocation.getCurrentPosition((position) => {
         let lat = position.coords.latitude;
         let lon = position.coords.longitude;
+        setLocation({ lat, lon });
         getForecast({ lat, lon });
       });
     }
@@ -110,6 +112,8 @@ const useForecast = () => {
     city,
     forecast,
     isFarenheit,
+    location,
+    setLocation,
     handleLocationClick,
     handleUnitChange,
     onInputChange,

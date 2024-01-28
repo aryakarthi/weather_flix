@@ -8,6 +8,8 @@ const Header = ({
   setTerm,
   options,
   isFarenheit,
+  location,
+  setLocation,
   handleUnitChange,
   handleLocationClick,
   onInputChange,
@@ -63,7 +65,9 @@ const Header = ({
         </div>
         <div className="flex gap-4 order-1">
           <div
-            className="bg-blue-400 w-8 h-8 rounded-full grid place-items-center"
+            className={`${
+              location ? "bg-emerald-500" : "bg-blue-400"
+            } w-8 h-8 rounded-full grid place-items-center hover:cursor-pointer`}
             onClick={handleLocationClick}
           >
             <MdMyLocation />
