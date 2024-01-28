@@ -7,6 +7,7 @@ import useForecast from "./hooks/useForecast";
 const App = () => {
   const {
     term,
+    setTerm,
     options,
     city,
     forecast,
@@ -22,6 +23,7 @@ const App = () => {
     <div className="min-h-screen py-4 container">
       <Header
         term={term}
+        setTerm={setTerm}
         options={options}
         city={city}
         isFarenheit={isFarenheit}

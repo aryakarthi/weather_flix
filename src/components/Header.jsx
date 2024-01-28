@@ -1,8 +1,11 @@
 import { MdSearch, MdMyLocation } from "react-icons/md";
+import { IoCloseCircle } from "react-icons/io5";
+
 import UnitToggle from "./UnitToggle";
 
 const Header = ({
   term,
+  setTerm,
   options,
   isFarenheit,
   handleUnitChange,
@@ -19,6 +22,13 @@ const Header = ({
       </div>
       <div className="flex flex-col md:flex-row items-center gap-4">
         <div className="relative flex items-center rounded-md order-2 z-50">
+          {term && (
+            <IoCloseCircle
+              size={18}
+              className="absolute right-14 text-red-500 hover:cursor-pointer"
+              onClick={() => setTerm("")}
+            />
+          )}
           <input
             type="text"
             name="search"

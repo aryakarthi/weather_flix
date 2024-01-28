@@ -105,6 +105,7 @@ const useForecast = () => {
 
   return {
     term,
+    setTerm,
     options,
     city,
     forecast,
