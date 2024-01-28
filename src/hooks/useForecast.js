@@ -73,6 +73,20 @@ const useForecast = () => {
     getForecast(city);
   };
 
+  const myCity = {
+    country: "India",
+    id: 1110805,
+    lat: 13.08,
+    lon: 80.28,
+    name: "Chennai",
+    region: "Tamil Nadu",
+    url: "chennai-tamil-nadu-india",
+  };
+
+  useEffect(() => {
+    getForecast(myCity);
+  }, []);
+
   useEffect(() => {
     if (city) {
       setTerm(city.name);

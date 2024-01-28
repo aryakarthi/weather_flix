@@ -17,7 +17,7 @@ const Header = ({
   // console.log(isFarenheit);
 
   return (
-    <header className="flex flex-col md:flex-row items-center justify-between gap-4 bg-white bg-opacity-40 backdrop-blur-md rounded-md drop-shadow-md p-4 mb-4">
+    <header className="flex flex-col md:flex-row items-center justify-between gap-4 bg-white bg-opacity-30 backdrop-blur-md rounded-md drop-shadow-md p-4 mb-4">
       <div className="flex gap-2">
         <img src="/weather_flix_logo.png" alt="Weather Flix" />
         <h2 className="text-2xl font-black">Weather Flix</h2>
@@ -45,7 +45,10 @@ const Header = ({
               <li key={option.name + "-" + index}>
                 <button
                   className="text-left text-sm w-full hover:bg-blue-400 hover:text-white px-2 py-1 cursor-pointer"
-                  onClick={() => onOptionSelect(option)}
+                  onClick={() => {
+                    onOptionSelect(option);
+                    console.log(option);
+                  }}
                 >
                   {option.name}, {option.country}
                 </button>

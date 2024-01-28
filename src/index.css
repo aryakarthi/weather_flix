@@ -7,7 +7,7 @@ body {
   padding: 0;
   min-height: 100vh;
 
-  background-image: linear-gradient(to top, #da7ffb 0%, #a6c1ee 100%);
+  background-image: linear-gradient(to bottom, #90b2ed 0%, #a6c1ee 100%);
 
   background-position: fixed;
   background-repeat: no-repeat;

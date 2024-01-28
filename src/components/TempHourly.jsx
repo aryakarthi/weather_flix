@@ -6,7 +6,7 @@ const TempHourly = ({ hourly, isFarenheit }) => {
   return (
     <div
       key={hourly.time_epoch}
-      className="min-w-[80px] flex flex-col items-center gap-2 bg-white bg-opacity-50 p-2 rounded-md hover:bg-opacity-80 hover:cursor-pointer"
+      className="min-w-[80px] flex flex-col items-center gap-2 bg-white bg-opacity-40 p-2 rounded-md hover:bg-opacity-80 hover:cursor-pointer"
     >
       <span className="text-xs">
         {hourly && epochToTime(hourly.time_epoch)}

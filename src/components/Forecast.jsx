@@ -5,11 +5,13 @@ import TempHourly from "./TempHourly";
 import HighlightsComponent from "./HighlightsComponent";
 import NowComponent from "./NowComponent";
 
-import data from "../data/forecast.json";
+// import data from "../data/forecast.json";
 // forecast: data,
 
-const Forecast = ({ isFarenheit }) => {
+const Forecast = ({ forecast: data, isFarenheit }) => {
   console.log(data);
+
+  if (!data) return;
 
   const {
     temp_c,
@@ -104,12 +106,18 @@ const Forecast = ({ isFarenheit }) => {
       {data && (
         <section className="flex flex-col md:flex-row md:items-start gap-4">
           <aside className="flex flex-col gap-4 lg:w-1/3 md:w-1/2 w-full ">
-            <div className="rounded-md p-4 bg-white bg-opacity-40 backdrop-blur-md drop-shadow-md -z-10">
+            <div className="rounded-md p-4 bg-white bg-opacity-30 backdrop-blur-md drop-shadow-md -z-10">
               <NowComponent isFarenheit={isFarenheit} now={weatherNow} />
             </div>
-            <div className="rounded-md p-4 bg-white bg-opacity-40 backdrop-blur-md drop-shadow-md z-50">
-              <h3 className="mb-2">3days Forecast</h3>
-              <div>
+            <div className="rounded-md p-4 bg-white bg-opacity-30 backdrop-blur-md drop-shadow-md z-50">
+              <h3 className="mb-2">3 Days Forecast</h3>
+              <div className="">
+                <p className="flex flex-1 justify-between mb-2 text-sm font-semibold px-2">
+                  <span>Day</span>
+                  <span className="ml-4">Avg Temp</span>
+                  <span className="mr-4">Status</span>
+                  <span></span>
+                </p>
                 {threeDaysForecast?.map((info) => (
                   <div key={info.date_epoch} className="flex flex-col gap-1">
                     <SubMenu
@@ -138,7 +146,7 @@ const Forecast = ({ isFarenheit }) => {
             {/* Today's Forecast */}
             <div className="rounded-md p-4 bg-white bg-opacity-30 backdrop-blur-md drop-shadow-md z-10">
               <h3 className="mb-2">Today's Forecast</h3>
-              <div className=" bg-white bg-opacity-40 rounded-md p-4">
+              <div className=" bg-white bg-opacity-30 rounded-md p-4">
                 <h4 className="mb-2">Temperature at</h4>
                 <div className="flex flex-1 items-center gap-2 overflow-x-scroll scrollbar-none mb-4">
                   {threeDaysForecast[0].hour.map((item) => (
