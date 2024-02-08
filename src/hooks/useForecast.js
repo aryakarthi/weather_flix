@@ -123,5 +123,3 @@ const useForecast = () => {
 };
 
 export default useForecast;
-
-// VITE_WEATHER_API_KEY="09c1e74639msh6ec277e39b95228p1e1c8cjsn0e3319089858"
