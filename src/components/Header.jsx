@@ -54,7 +54,7 @@ const Header = ({
                   className="text-left text-sm w-full hover:bg-blue-400 hover:text-white px-2 py-1 cursor-pointer"
                   onClick={() => {
                     onOptionSelect(option);
-                    console.log(option);
+                    // console.log(option);
                   }}
                 >
                   {option.name}, {option.country}

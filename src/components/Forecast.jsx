@@ -28,11 +28,9 @@ import {
   LiaSnowflake,
 } from "react-icons/lia";
 
-// import data from "../data/forecast.json";
-// forecast: data,
 
 const Forecast = ({ forecast: data, isFarenheit }) => {
-  console.log(data);
+  // console.log(data);
 
   if (!data) return;
 

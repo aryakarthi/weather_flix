@@ -38,7 +38,6 @@ const useForecast = () => {
     setTerm(value);
 
     if (value === "") return;
-
     getSearchOptions(value);
   };
 
@@ -70,6 +69,7 @@ const useForecast = () => {
 
   const onSubmit = () => {
     if (!city) return;
+    setLocation(null);
     getForecast(city);
   };
 
@@ -88,6 +88,7 @@ const useForecast = () => {
       navigator.geolocation.getCurrentPosition((position) => {
         let lat = position.coords.latitude;
         let lon = position.coords.longitude;
+        setTerm("");
         setLocation({ lat, lon });
         getForecast({ lat, lon });
       });
