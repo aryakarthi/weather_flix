@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { epochToDayMonth } from "../utils/utilities";
+import { everyDay } from "../utils/utilities";
 import { IoIosArrowDown } from "react-icons/io";
 
 const SubMenu = ({ info, isFarenheit }) => {
@@ -45,7 +45,7 @@ const SubMenu = ({ info, isFarenheit }) => {
         onClick={() => setSubMenuOpen(!subMenuOpen)}
       >
         <span className="flex-1 text-emerald-600 font-medium">
-          {epochToDayMonth(info.date_epoch)}
+          {info && everyDay(info.date)}
         </span>
         <span className="flex-1 text-center">
           {isFarenheit ? (
@@ -59,9 +59,9 @@ const SubMenu = ({ info, isFarenheit }) => {
           )}
         </span>
         <span className="flex-1">
-          <img src={info.day.condition.icon} alt="" className="w-8 ml-auto" />
+          <img src={info.day.condition.icon} alt="" className="w-8 mx-auto" />
         </span>
-        <span className="flex-1">
+        <span className="flex-none">
           <IoIosArrowDown
             className={` ${subMenuOpen && "rotate-180"} duration-200 ml-auto`}
           />

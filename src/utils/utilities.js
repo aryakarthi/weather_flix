@@ -1,16 +1,25 @@
-import { format } from "date-fns";
+import { format, parse } from "date-fns";
 
-export const epochToDateTime = (epoch) => {
+export const epochToDateTimeZone = (epoch, timezone) => {
   const date = new Date(epoch * 1000);
-  return format(date, "dd-MM-yyyy hh:mm:ss a");
+  const formatted = new Intl.DateTimeFormat("en-GB", {
+    dateStyle: "full",
+    timeStyle: "long",
+    hourCycle: "h12",
+    timeZone: timezone,
+  }).format(date);
+  return formatted.split(" at ");
 };
 
-export const epochToTime = (epoch) => {
-  const date = new Date(epoch * 1000);
-  return format(date, "hh:mm a");
+export const everyHour = (timeStr) => {
+  const formattedTime = format(parse(timeStr, "HH:mm", new Date()), "hh:mm aa");
+  return formattedTime;
 };
 
-export const epochToDayMonth = (epoch) => {
-  const date = new Date(epoch * 1000);
-  return format(date, "do MMM");
+export const everyDay = (dateStr) => {
+  const formattedDate = format(
+    parse(dateStr, "yyyy-MM-dd", new Date()),
+    "do MMM"
+  );
+  return formattedDate;
 };

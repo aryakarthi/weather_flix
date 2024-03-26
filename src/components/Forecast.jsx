@@ -28,7 +28,6 @@ import {
   LiaSnowflake,
 } from "react-icons/lia";
 
-
 const Forecast = ({ forecast: data, isFarenheit }) => {
   // console.log(data);
 
@@ -51,7 +50,7 @@ const Forecast = ({ forecast: data, isFarenheit }) => {
 
   const { icon, text } = data?.current.condition;
 
-  const { name, country, localtime_epoch } = data?.location;
+  const { name, country, localtime_epoch, tz_id } = data?.location;
 
   const weatherNow = {
     icon,
@@ -61,6 +60,7 @@ const Forecast = ({ forecast: data, isFarenheit }) => {
     localtime_epoch,
     temp_c,
     temp_f,
+    tz_id,
   };
 
   const threeDaysForecast = data?.forecast.forecastday;
@@ -151,18 +151,15 @@ const Forecast = ({ forecast: data, isFarenheit }) => {
             <div className="rounded-md p-4 bg-white bg-opacity-30 backdrop-blur-md drop-shadow-md z-50">
               <h3 className="font-semibold mb-2">3 Days Forecast</h3>
               <div className="">
-                <p className="flex flex-1 justify-between mb-2 text-sm text-red-500 font-semibold px-2">
-                  <span>Day</span>
-                  <span>Avg Temp</span>
-                  <span>Status</span>
-                  <span></span>
+                <p className="flex justify-between mb-2 text-sm text-red-500 font-semibold px-2">
+                  <span className="flex-1">Day</span>
+                  <span className="flex-1 text-center">Avg Temp</span>
+                  <span className="flex-1 text-center">Status</span>
+                  <span className="flex-none"></span>
                 </p>
                 {threeDaysForecast?.map((info) => (
                   <div key={info.date_epoch} className="flex flex-col gap-1">
-                    <SubMenu
-                      info={info}
-                      isFarenheit={isFarenheit}
-                    />
+                    <SubMenu info={info} isFarenheit={isFarenheit} />
                   </div>
                 ))}
               </div>
@@ -185,7 +182,9 @@ const Forecast = ({ forecast: data, isFarenheit }) => {
             <div className="rounded-md p-4 bg-white bg-opacity-30 backdrop-blur-md drop-shadow-md z-10">
               <h3 className="font-semibold mb-2">Today's Forecast</h3>
               <div className=" bg-white bg-opacity-30 rounded-md p-4">
-                <h4 className="mb-2 font-medium text-red-500">Temperature at</h4>
+                <h4 className="mb-2 font-medium text-red-500">
+                  Temperature at
+                </h4>
                 <div className="flex flex-1 items-center gap-2 overflow-x-scroll scrollbar-none mb-4">
                   {threeDaysForecast[0].hour.map((item) => (
                     <TempHourly
@@ -195,7 +194,9 @@ const Forecast = ({ forecast: data, isFarenheit }) => {
                     />
                   ))}
                 </div>
-                <h4 className="mb-2 font-medium text-red-500">Wind Speed & Direction at</h4>
+                <h4 className="mb-2 font-medium text-red-500">
+                  Wind Speed & Direction at
+                </h4>
                 <div className="flex flex-1 items-center gap-2 overflow-x-scroll scrollbar-none pb-1">
                   {threeDaysForecast[0].hour.map((item) => (
                     <WindHourly key={item.time_epoch} hourly={item} />
